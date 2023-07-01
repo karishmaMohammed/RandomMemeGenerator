@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Meme Generator</title>
+    <style>
+        body{
+            background: linear-gradient(45deg, #ff5f6d, #ffc371);
+        }
+        #main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #meme {
+            height: 500px;
+            border-radius: 15px;
+        }
+        button {
+            font-size: 30px;
+            padding: 10px 8px;
+            margin-top: 20px;
+            color: rgb(19, 18, 17);
+            cursor: pointer;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ed4264, #ffedbc);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <img id="meme"/>
+        <button onclick="fetchAPIForMeme()">New Meme</button>
+    </div>
+</body>
+<script>
+    function fetchAPIForMeme() {
+        fetch("https://meme-api.com/gimme").then((data) => {
+            if(!data.ok) throw new Error("There is no Meme");
+            return data.json();
+        })
+        .then((data) => {
+            const imageElement = document.getElementById("meme");
+            imageElement.setAttribute("src", data.url);
+        })
+        .catch((error) => {
+            fetchAPIForMeme();
+        });
+    }
+    fetchAPIForMeme();
+</script>
+</html>
